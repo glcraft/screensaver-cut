@@ -1,0 +1,6 @@
+[submodule "deps/libglw"]
+	path = deps/libglw
+	url = https://github.com/glcraft/libglw.git
+[submodule "deps/Signal-Slot"]
+	path = deps/Signal-Slot
+	url = https://github.com/glcraft/Signal-Slot.git

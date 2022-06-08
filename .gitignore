@@ -1,0 +1,4 @@
+build/
+deps/include
+deps/lib
+.vscode

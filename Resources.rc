@@ -1,0 +1,3 @@
+#include "Resources.h"
+
+IDR_ICON               ICON                    "icon.ico"

@@ -23,9 +23,11 @@ int main(int argv, char** argc)
     }
     SDL_Init(SDL_INIT_VIDEO);
     SDL_DisableScreenSaver();
-    fs::path pathExe(argc[0]);
-    fs::path pathRoot(pathExe.parent_path());
-
+#ifdef DEBUG
+    fs::path pathRoot(fs::current_path());
+#else
+    fs::path pathRoot(fs::path(argc[0]).parent_path());
+#endif
     MainGame m_main;
     m_main.setPathRoot(pathRoot);
     switch(request)

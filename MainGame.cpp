@@ -83,7 +83,7 @@ void MainGame::drawScene(bool tex)
     m_shader << gl::sl::use
                 << gl::UniformRef<float>("time", currentTime)
                 << gl::UniformStatic<float>("sizeLine", m_input.getWindowData().size.x/100.f)
-                << gl::UniformRef<int>("isTexture", tex)
+                << gl::UniformStatic<int>("isTexture", tex)
                 << gl::UniformStatic<float>("ratio", ratio)
                 << gl::UniformStatic<float>("invratio", 1.f/ratio)
                 << gl::UniformRef<glm::vec3>("line.color", m_line.color)

@@ -4,7 +4,6 @@
 #include <SDL2\SDL.h>
 #include <glm\glm.hpp>
 #include <map>
-#include <onidev\signal.h>
 #include <array>
 #ifdef __WINDOWS__
 #include <Windows.h>

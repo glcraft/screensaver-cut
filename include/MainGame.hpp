@@ -2,7 +2,7 @@
 #include <chrono>
 #include <libglw/GLWrapper.h>
 #include <libglw/Shaders.h>
-#include "Input.h"
+#include <Input.h>
 #include <filesystem>
 
 double tr_cos(double);

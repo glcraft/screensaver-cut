@@ -1,7 +1,7 @@
 #include <random>
 #include <glm/gtc/constants.hpp>
 #include <glm/gtx/color_space.hpp>
-#include "MainGame.hpp"
+#include <MainGame.hpp>
 
 double tr_cos(double x)
 {

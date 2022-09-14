@@ -18,6 +18,7 @@ void MainGame::setPathRoot(std::filesystem::path pRoot)
 void MainGame::init(const void* data)
 {
     SDL_DisplayMode dmode;
+    gl::Object::SetAutoInstantiate(true);
     SDL_GetDisplayMode(0,0,&dmode);
     if (data)
         m_input.attachWindow((HWND)(data));

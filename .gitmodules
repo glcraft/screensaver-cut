@@ -4,3 +4,6 @@
 [submodule "deps/Signal-Slot"]
 	path = deps/Signal-Slot
 	url = https://github.com/glcraft/Signal-Slot.git
+[submodule "deps/regex_literals"]
+	path = deps/regex_literals
+	url = https://github.com/glcraft/regex_literals.git

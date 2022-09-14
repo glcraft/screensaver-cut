@@ -52,6 +52,13 @@ void MainGame::init(const void* data)
              << gl::sl::Shader<gl::sl::Fragment>((m_pathRoot/"res/shaders/screen.frag").string())
              << gl::sl::link;
     CATCH_GLSL
+
+    float ratio = static_cast<float>(m_input.getWindowData().size.x)/static_cast<float>(m_input.getWindowData().size.y);
+
+    m_shader << gl::sl::use
+        << gl::UniformStatic<float>("sizeLine", m_input.getWindowData().size.x/100.f)
+        << gl::UniformStatic<float>("ratio", ratio)
+        << gl::UniformStatic<float>("invratio", 1.f/ratio);
     
     auto sampler = std::make_shared<gl::Sampler>();
     sampler->setFiltering(gl::Sampler::Nearest);
@@ -79,17 +86,10 @@ void MainGame::resetTime()
 void MainGame::drawScene(bool tex)
 {
     gl::ClearColor(1.f, 0.f, 0.f, 1.f);
-    float ratio = static_cast<float>(m_input.getWindowData().size.x)/static_cast<float>(m_input.getWindowData().size.y);
+    
     m_shader << gl::sl::use
-                << gl::UniformRef<float>("time", currentTime)
-                << gl::UniformStatic<float>("sizeLine", m_input.getWindowData().size.x/100.f)
-                << gl::UniformStatic<int>("isTexture", tex)
-                << gl::UniformStatic<float>("ratio", ratio)
-                << gl::UniformStatic<float>("invratio", 1.f/ratio)
-                << gl::UniformRef<glm::vec3>("line.color", m_line.color)
-                << gl::UniformRef<glm::vec2>("line.pos", m_line.pos)
-                << gl::UniformRef<glm::vec2>("line.dir", m_line.dir)
-                << gl::UniformStatic<float>("line.overture", m_line.overture);
+        << gl::UniformStatic<float>("time", currentTime)
+        << gl::UniformStatic<int>("isTexture", tex);
                 
     if (tex)
     {
@@ -110,6 +110,12 @@ void MainGame::resetLine()
     m_line.dir=normalize(glm::vec2(dist(mt), dist(mt)));
     m_line.overture = 0.015f+static_cast<float>(dist1(mt))*0.12f;
     m_line.color = glm::rgbColor(glm::vec3(dist1(mt)*360.f,1.f,1.f));
+
+    m_shader << gl::sl::use
+        << gl::UniformRef<glm::vec3>("line.color", m_line.color)
+        << gl::UniformRef<glm::vec2>("line.pos", m_line.pos)
+        << gl::UniformRef<glm::vec2>("line.dir", m_line.dir)
+        << gl::UniformStatic<float>("line.overture", m_line.overture);
 }
 void MainGame::display()
 {

@@ -3,7 +3,10 @@ add_requires("libsdl", "glm", "glew")
 includes("deps/libglw", "deps/regex_literals")
 target("cut")
     set_kind("binary")
-    add_files("src/*.cpp", "src/*.rc")
+    add_files("src/*.cpp")
+    if (is_plat("windows")) then
+        add_files("src/*.rc")
+    end
     add_includedirs("include")
     add_headerfiles("include/*.h", "include/*.hpp")
     add_packages("libsdl", "glm")

@@ -1,8 +1,11 @@
 #include "Input.h"
+#include "SDL_error.h"
+#include "SDL_video.h"
 #include <GL/glew.h>
 #include <SDL2/SDL_syswm.h>
 #include <sstream>
 #include <iostream>
+#include <stdexcept>
 // #include "UTF8.h"
 std::map<Uint32, Input::WindowData> Input::m_windows;
 
@@ -45,10 +48,13 @@ void Input::createWindow(const std::string& title, Uint32 flags, glm::ivec2 pos,
 		size.x = DM.w * 3 / 4;
 	if (size.y < 0)
 		size.y = DM.h * 3 / 4;
-	SDL_Window* wPtr=SDL_CreateWindow(title.c_str(), pos.x, pos.y, size.x, size.y, flags);
+	SDL_Window* wPtr=SDL_CreateWindow(title.c_str(), pos.x, pos.y, size.x, size.y, flags | SDL_WINDOW_OPENGL);
 	SDL_GetWindowPosition(wPtr, &pos.x, &pos.y);
-	if (wPtr == 0)
-		throw std::exception("SDL : Impossible de créer une fenêtre", 1);
+	if (wPtr == 0) {
+
+		std::cout << "SDL Error: " << SDL_GetError() << std::endl;
+		throw std::runtime_error("SDL : Impossible de créer une fenêtre");
+	}
 	Uint32 wID = SDL_GetWindowID(wPtr);
 	m_windowID = wID;
 	auto mypair = m_windows.insert(std::make_pair<Uint32, WindowData>(std::move(wID), std::move(WindowData(wPtr))));
@@ -67,7 +73,8 @@ void Input::createWindow(const std::string& title, Uint32 flags, glm::ivec2 pos,
 	SDL_GLContext glcont = SDL_GL_CreateContext(wPtr);
 	if (glcont == 0)
 	{
-		throw std::exception("SDL : Impossible de créer le contexte OpenGL de la fenêtre", 1);
+		std::cout << "SDL Error: " << SDL_GetError() << std::endl;
+		throw std::runtime_error("SDL : Impossible de créer le contexte OpenGL de la fenêtre");
 	}
 	mypair.first->second.sdl_glContext = std::move(glcont);
 #endif
@@ -207,7 +214,7 @@ void Input::Update()
 				break;
 			case SDL_TEXTINPUT:
 				m_windows[evt.key.windowID].io.typing = true;
-				strcpy_s(m_windows[evt.key.windowID].io.utf8,evt.text.text);
+				memcpy(m_windows[evt.key.windowID].io.utf8, evt.text.text, sizeof(m_windows[evt.key.windowID].io.utf8));
 				break;
 			case SDL_MOUSEBUTTONDOWN:
 				m_windows[evt.button.windowID].io.mouseButtons[evt.button.button].pressed = true;
@@ -290,11 +297,11 @@ void Input::WindowData::makeCurrent() const
 
 void Input::WindowData::swapBuffers() const 
 {
+#if __WINDOWS__ 
 	if (attached)
-#if __WINDOWS__
 		SwapBuffers(dc);
-#endif
 	else
+#endif
 		SDL_GL_SwapWindow(windowPtr);
 }
 

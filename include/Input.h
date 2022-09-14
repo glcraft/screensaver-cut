@@ -1,8 +1,8 @@
 #pragma once
 #include <memory>
 #include <string>
-#include <SDL2\SDL.h>
-#include <glm\glm.hpp>
+#include <SDL2/SDL.h>
+#include <glm/glm.hpp>
 #include <map>
 #include <array>
 #ifdef __WINDOWS__
@@ -57,8 +57,10 @@ public:
 		glm::ivec2 position;
 		glm::ivec2 size;
 		SDL_Window* windowPtr;
+#ifdef _WIN32
 		GLContext glrc;
 		DisplayContext dc;
+#endif
 		bool attached;
 #ifdef EXPERIMENTAL_MULTIWINDOWS
 		static SDL_GLContext sdl_glContext;

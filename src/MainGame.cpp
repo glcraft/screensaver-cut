@@ -20,9 +20,12 @@ void MainGame::init(const void* data)
     SDL_DisplayMode dmode;
     gl::Object::SetAutoInstantiate(true);
     SDL_GetDisplayMode(0,0,&dmode);
+#ifdef _WIN32
     if (data)
         m_input.attachWindow((HWND)(data));
-    else if (m_windowed)
+    else 
+#endif
+    if (m_windowed)
         m_input.createWindow("LibMC", SDL_WINDOW_OPENGL);
     else
     {
@@ -30,8 +33,9 @@ void MainGame::init(const void* data)
         SDL_ShowCursor(false);
         SDL_CaptureMouse(SDL_TRUE);
     }
-        
+#ifdef _WIN32
     id = (HWND)(data);
+#endif
     SDL_GL_SetSwapInterval(1);
     glewExperimental = true;
 	glewInit();

@@ -35,8 +35,9 @@ private:
             gl::Framebuffer::uptr fbo;
         } blitter, drawer;
     }m_screens;
+#ifdef _WIN32
     HWND id;
-
+#endif
     bool m_windowed=false;
     std::filesystem::path m_pathRoot;
 

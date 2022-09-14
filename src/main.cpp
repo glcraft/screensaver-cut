@@ -6,9 +6,9 @@
 #endif
 int main(int argv, char** argc)
 {
-    #ifdef _WIN32
+#ifdef _WIN32
     SetProcessDPIAware();
-    #endif
+#endif
     namespace fs=std::filesystem;
     int request=0;
     if (argv>=2)
@@ -16,8 +16,10 @@ int main(int argv, char** argc)
         std::string jeton(argc[1]);
         if ("/\\/s/i"_rg.match(jeton))
             request=0;
+#ifdef _WIN32
         else if ("/\\/p/i"_rg.match(jeton))
             request=1;
+#endif
         else if ("/\\/test/i"_rg.match(jeton))
             request=2;
     }

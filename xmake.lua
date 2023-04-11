@@ -10,7 +10,7 @@ target("cut")
         add_packages("libsdl", "glm")
     elseif (is_plat("macosx")) then
         add_files("src/macos/*.cpp")
-        -- add_files("src/macos/*.swift")
+        add_files("src/macos/*.swift")
     end
     add_includedirs("include")
     add_headerfiles("include/*.h", "include/*.hpp")
